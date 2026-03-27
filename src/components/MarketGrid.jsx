@@ -23,6 +23,7 @@ function MarketCard({ item }) {
   const isPositive = item.change > 0;
   const isNegative = item.change < 0;
   const changeColor = isPositive ? 'text-emerald-400' : isNegative ? 'text-red-400' : 'text-slate-400';
+  const changeSize = isNegative ? 'text-lg font-bold' : 'text-sm';
   const changeText = formatChange(item.change, item.changePercent);
 
   return (
@@ -32,7 +33,7 @@ function MarketCard({ item }) {
         {formatPrice(item.price, item.id)}
       </p>
       {changeText && (
-        <p className={`text-sm mt-1 ${changeColor}`}>{changeText}</p>
+        <p className={`mt-1 ${changeSize} ${changeColor}`}>{changeText}</p>
       )}
     </div>
   );
@@ -43,7 +44,10 @@ export default function MarketGrid({ data }) {
 
   return (
     <section>
-      <h2 className="text-lg font-semibold text-blue-100 mb-3">マーケット概況</h2>
+      <div className="flex items-center gap-4 mb-3">
+        <h2 className="text-lg font-semibold text-blue-100">マーケット概況</h2>
+        <a href="https://sekai-kabuka.com" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:text-blue-300 hover:underline">世界の株価</a>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data.map((item) => (
           <MarketCard key={item.id} item={item} />
