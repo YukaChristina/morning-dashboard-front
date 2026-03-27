@@ -1,3 +1,5 @@
+import Tooltip from './Tooltip.jsx';
+
 const IMPACT_STYLES = {
   high: 'bg-red-100 text-red-700',
   mid:  'bg-yellow-100 text-yellow-700',
@@ -51,7 +53,7 @@ export default function EconomicCalendar({ events }) {
                     <td className="px-4 py-3 text-slate-400 whitespace-nowrap">
                       {formatDate(event.date)}
                     </td>
-                    <td className="px-4 py-3 text-slate-200 font-medium">{event.name}</td>
+                    <td className="px-4 py-3 text-slate-200 font-medium"><Tooltip term={event.name}>{event.name}</Tooltip></td>
                     <td className="px-4 py-3 text-center">
                       <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${IMPACT_STYLES[event.impact] || IMPACT_STYLES.low}`}>
                         {IMPACT_LABELS[event.impact] || event.impact}

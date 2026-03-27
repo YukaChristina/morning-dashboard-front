@@ -1,3 +1,5 @@
+import Tooltip from './Tooltip.jsx';
+
 function formatPrice(price, symbol) {
   if (price === null || price === undefined) return '---';
   // 利回り・VIX・為替は小数点2桁、株価指数は整数または1桁
@@ -28,7 +30,7 @@ function MarketCard({ item }) {
 
   return (
     <div className="bg-slate-800 rounded-xl border border-slate-700 p-4 shadow-sm">
-      <p className="text-xs text-blue-400 mb-1">{item.label}</p>
+      <p className="text-xs text-blue-400 mb-1"><Tooltip term={item.label}>{item.label}</Tooltip></p>
       <p className="text-xl font-semibold text-blue-100">
         {formatPrice(item.price, item.id)}
       </p>
