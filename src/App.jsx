@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import MarketGrid from './components/MarketGrid';
 import EconomicCalendar from './components/EconomicCalendar';
+import EconomicIndicators from './components/EconomicIndicators';
 import TradingViewWidget from './components/TradingViewWidget';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3001/api';
@@ -8,18 +9,21 @@ const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3001/api';
 export default function App() {
   const [markets, setMarkets] = useState(null);
   const [calendar, setCalendar] = useState([]);
+  const [economic, setEconomic] = useState([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
 
   const fetchAll = async () => {
     setLoading(true);
     try {
-      const [m, c] = await Promise.all([
+      const [m, c, e] = await Promise.all([
         fetch(`${API_BASE}/markets`).then((r) => r.json()),
         fetch(`${API_BASE}/calendar`).then((r) => r.json()),
+        fetch(`${API_BASE}/economic`).then((r) => r.json()),
       ]);
       setMarkets(m);
       setCalendar(c);
+      setEconomic(e);
       setLastUpdated(new Date());
     } catch (e) {
       console.error('データ取得エラー:', e);
@@ -59,6 +63,7 @@ export default function App() {
           <div className="space-y-8">
             <MarketGrid data={markets} />
             <TradingViewWidget />
+            <EconomicIndicators data={economic} />
             <EconomicCalendar events={calendar} />
           </div>
         )}
