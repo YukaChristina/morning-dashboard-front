@@ -7,6 +7,11 @@ export default function TradingViewWidget() {
     // すでにスクリプトが追加されていれば再追加しない
     if (container.current.querySelector('script')) return;
 
+    // TradingViewの保存済みシンボルをクリアして強制的にNI225を表示
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith('tradingview.')) localStorage.removeItem(key);
+    });
+
     const script = document.createElement('script');
     script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
     script.type = 'text/javascript';
