@@ -3,24 +3,28 @@ import MarketGrid from './components/MarketGrid';
 import EconomicCalendar from './components/EconomicCalendar';
 import EconomicIndicators from './components/EconomicIndicators';
 import TradingViewWidget from './components/TradingViewWidget';
+import BloombergNews from './components/BloombergNews';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3001/api';
 
 export default function App() {
   const [markets, setMarkets] = useState(null);
   const [calendar, setCalendar] = useState([]);
+  const [bloomberg, setBloomberg] = useState([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
 
   const fetchAll = async () => {
     setLoading(true);
     try {
-      const [m, c] = await Promise.allSettled([
+      const [m, c, b] = await Promise.allSettled([
         fetch(`${API_BASE}/markets`).then((r) => r.json()),
         fetch(`${API_BASE}/calendar`).then((r) => r.json()),
+        fetch(`${API_BASE}/bloomberg`).then((r) => r.json()),
       ]);
       if (m.status === 'fulfilled') setMarkets(m.value);
       if (c.status === 'fulfilled') setCalendar(c.value);
+      if (b.status === 'fulfilled') setBloomberg(b.value);
       setLastUpdated(new Date());
     } catch (e) {
       console.error('データ取得エラー:', e);
@@ -59,6 +63,7 @@ export default function App() {
         ) : (
           <div className="space-y-8">
             <MarketGrid data={markets} />
+            <BloombergNews data={bloomberg} />
             <TradingViewWidget />
             <EconomicIndicators />
             <EconomicCalendar events={calendar} />
