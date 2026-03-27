@@ -16,14 +16,14 @@ export default function App() {
   const fetchAll = async () => {
     setLoading(true);
     try {
-      const [m, c, e] = await Promise.all([
+      const [m, c, e] = await Promise.allSettled([
         fetch(`${API_BASE}/markets`).then((r) => r.json()),
         fetch(`${API_BASE}/calendar`).then((r) => r.json()),
         fetch(`${API_BASE}/economic`).then((r) => r.json()),
       ]);
-      setMarkets(m);
-      setCalendar(c);
-      setEconomic(e);
+      if (m.status === 'fulfilled') setMarkets(m.value);
+      if (c.status === 'fulfilled') setCalendar(c.value);
+      if (e.status === 'fulfilled') setEconomic(e.value);
       setLastUpdated(new Date());
     } catch (e) {
       console.error('データ取得エラー:', e);
