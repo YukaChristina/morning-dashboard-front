@@ -19,7 +19,7 @@ export default function TradingViewWidget() {
       theme: 'light',
       style: '1',
       locale: 'ja',
-      allow_symbol_change: true,
+      allow_symbol_change: false,
     });
     container.current.appendChild(script);
   }, []);
