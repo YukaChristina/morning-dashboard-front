@@ -9,21 +9,18 @@ const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3001/api';
 export default function App() {
   const [markets, setMarkets] = useState(null);
   const [calendar, setCalendar] = useState([]);
-  const [economic, setEconomic] = useState([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
 
   const fetchAll = async () => {
     setLoading(true);
     try {
-      const [m, c, e] = await Promise.allSettled([
+      const [m, c] = await Promise.allSettled([
         fetch(`${API_BASE}/markets`).then((r) => r.json()),
         fetch(`${API_BASE}/calendar`).then((r) => r.json()),
-        fetch(`${API_BASE}/economic`).then((r) => r.json()),
       ]);
       if (m.status === 'fulfilled') setMarkets(m.value);
       if (c.status === 'fulfilled') setCalendar(c.value);
-      if (e.status === 'fulfilled') setEconomic(e.value);
       setLastUpdated(new Date());
     } catch (e) {
       console.error('データ取得エラー:', e);
@@ -63,7 +60,7 @@ export default function App() {
           <div className="space-y-8">
             <MarketGrid data={markets} />
             <TradingViewWidget />
-            <EconomicIndicators data={economic} />
+            <EconomicIndicators />
             <EconomicCalendar events={calendar} />
           </div>
         )}
