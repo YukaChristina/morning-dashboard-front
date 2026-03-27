@@ -50,7 +50,7 @@ export default function MarketGrid({ data }) {
         <h2 className="text-lg font-semibold text-blue-100">マーケット概況</h2>
         <a href="https://sekai-kabuka.com" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:text-blue-300 hover:underline">世界の株価</a>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data.map((item) => (
           <MarketCard key={item.id} item={item} />
         ))}
